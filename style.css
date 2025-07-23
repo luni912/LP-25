@@ -1,4 +1,119 @@
-html {
-  height: 100%;
-  width: 100%;
+body {
+  margin: 0;
+  font-family: 'Helvetica Neue', sans-serif;
+  background: #000000;
+  color: #333;
+}
+
+.container {
+  max-width: 1020px;
+  margin: 60px auto;
+  padding: 30px;
+  background: #fff0d6;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  text-align: center;
+}
+
+h1 {
+  color: #6e0a75;
+  font-size: 2em;
+  margin-bottom: 20px;
+}
+
+.intro {
+  font-size: 1.1em;
+  margin-bottom: 24px;
+}
+
+.timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.event {
+  display:block;
+  margin-bottom: 20px;
+  background: #ffe09e;
+  padding: 12px;
+  border-radius: 8px;
+  border-left: 6px solid #000000;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  cursor: pointer;
+  font-size: 1em;
+  text-align: left;
+  transition: background 0.3s;
+  border: none;
+}
+
+.event:hover {
+  background: #000000;
+}
+
+footer {
+  margin-top: 40px;
+  font-weight: bold;
+  color: #000000;
+}
+.week-labels {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  text-align: center;
+  font-weight: bold;
+  margin-top: 30px;
+  color: #d63384;
+}
+
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.day {
+  background: #fff;
+  border-left: 6px solid #d63384;
+  padding: 10px;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 80px;
+}
+
+/* 假日配色 */
+.day.wk {
+  background-color: #fff0f6;
+}
+.day.wd {
+  background-color: #f9f9f9;
+}
+/* 空白日也要顯示 */
+.day.wkn {
+  background-color: #fff0f6;
+  border-left: 6px solid transparent;
+}
+.day.empty {
+  background-color: #f9f9f9;
+  border-left: 6px solid transparent;
+}
+
+/* 日期與詳細文字 */
+.date-label {
+  font-weight: bold;
+  font-size: 0.9em;
+  margin-bottom: 4px;
+  color: #d63384;
+}
+
+.detail {
+  font-size: 0.75em;
+  color: #555;
+  text-align: left;
+  line-height: 1.2;
+  word-break: break-word;
+  overflow-wrap: break-word;
 }
