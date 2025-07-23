@@ -106,20 +106,27 @@ footer {
 .calendar-grid {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  gap: 12px;
-  margin-top: 20px;
+  gap: 6px;
+  margin-top: 16px 0;
+  min-width: 560px;
 }
-
+.calendar-grid-wrapper {
+  overflow-x: auto;
+}
+.calendar-wrapper {
+  overflow-x: auto;
+  padding-bottom: 10px;
+}
 .day {
+  aspect-ratio: 1 / 1;
   background: #fff;
-  border-left: 6px solid #d63384;
-  padding: 10px;
+  padding: 4px;
   border-radius: 8px;
   box-shadow: 0 2px 6px rgba(0,0,0,0.05);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  min-height: 80px;
+  
 }
 
 /* 假日配色 */
@@ -148,7 +155,7 @@ footer {
 }
 
 .detail {
-  font-size: 0.75em;
+  font-size: 0.8em;
   color: #555;
   text-align: left;
   line-height: 1.2;

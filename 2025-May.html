@@ -12,8 +12,9 @@
     <h1>2025 May Memories</h1>
 
     <!-- 日曆格子 -->
+  <div class="calendar-wrapper">
     <div class="calendar-grid">
- 
+
       <div class="day empty"><div class="date-label"></div><div class="detail"></div></div>
       <div class="day empty"><div class="date-label"></div><div class="detail"></div></div>
       <div class="day empty"><div class="date-label"></div><div class="detail"></div></div>
@@ -84,11 +85,11 @@
       <div class="day wk">
         <div class="date-label">31</div>
         <div class="detail">宵夜</div></div>
-      <div class="day wkn"><div class="date-label"></div><div class="detail"></div></div>
+      <div class="day wkn"><div class="date-label"></div><div class="detail"></div>
+      </div>
     </div>
-
-    <footer>一起走過的美好日子 ❤️</footer>
   </div>
+    <footer>一起走過的美好日子 ❤️</footer>
   <!-- Memo 寫日記視窗 -->
   <div id="memo-entry" class="memo-card">
     <div class="memo-content">
@@ -99,7 +100,7 @@
 
       <!-- ✍️ 輸入區 -->
       <textarea id="memo-text" placeholder="寫下今天的回憶..."></textarea>
-      <input type="password" id="memo-password" placeholder="密碼（輸入 3）"/>
+      <input type="password" id="memo-password" placeholder="密碼"/>
       <button onclick="submitMemo()" class="back-button submit">送出</button>
 
       <button onclick="closeMemoEntry()" class="back-button home">← 回首頁</button>
@@ -177,7 +178,7 @@
         font-size: 0.85em;
         cursor: pointer;
       }
-     .back-button.submit {
+    .back-button.submit {
         display: block;
         margin: 20px auto 0 auto;
         background-color: #d63384;
@@ -188,7 +189,7 @@
         cursor: pointer;
         font-size: 0.9em;
       }
-      .memo-content {
+    .memo-content {
         max-height: 80vh;
         overflow-y: auto;
       }
@@ -196,8 +197,7 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-top: 6px;
-      gap: 12px;
+      gap: 8px;
     }
 
     .edit-btn, .delete-btn {
@@ -206,12 +206,16 @@
       color: #d63384;
       cursor: pointer;
       font-size: 0.85em;
-      padding: 6px 12px;
+      padding: 6px;
       flex-shrink: 0;
     }
 
     .memo-text {
-      margin-bottom: 6px;
+      flex-grow: 1;
+      text-align:center;
+      font-size: 0.9em;
+      padding: 4px 8px;
+      word-break: break-word;
     }
 
     .edit-box {
@@ -225,8 +229,8 @@
     .memo-text {
         margin-bottom: 6px;
       }
-    
-    
+
+
     }
   </style>
   <!-- JS開關memo -->
@@ -269,9 +273,9 @@
         item.className = "memo-item";
 
         item.innerHTML = `
-          <div class="memo-text" id="memo-text-${index}">${msg}</div>
           <div class="memo-actions">
             <button onclick="startEdit(${index})" class="edit-btn">✏️</button>
+            <div class="memo-text" id="memo-text-${index}">${msg}</div>
             <button onclick="confirmDelete(${index})" class="delete-btn">🗑</button>
           </div>
         `;
