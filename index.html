@@ -9,27 +9,109 @@
 </head>
 
 <body>
+  <!-- 密碼輸入畫面 -->
+  <div id="lock-screen">
+    <h2>KEY</h2>
+    <input type="password" id="password-input" placeholder="最美的數字..." />
+    <button onclick="checkPassword()">Enter</button>
+    <p id="error-message" style="color: red;"></p>
+  </div>
+
+  <!-- 真正主頁內容（預設隱藏） -->
+  <div id="main-content" style="display: none;">
   <div class="section-title">
     <h2>I Love You 3000</h2>
     <p class="intro">走在一起是緣分，一起在走是幸福</p>
   </div>
   <div class="timeline-grid">
-    <a href="2025-03-26.html" class="event">2025-03-26 First Chat</a>
-    <a href="2025-04-19.html" class="event">2025-04-19 Bii With You</a>
-    <a href="2025-April.html" class="event">2025 April</a>
+    <a onclick="openMemo()" class="event">2025-03-26 First Chat</a>
+    <a onclick="openBiiMemo()" class="event">2025-04-19 Bii With You</a>
+    <a onclick="openAprilMemo()" class="event">2025 other dates in April</a>
     <a href="2025-May.html" class="event">2025 May</a>
     <a href="2025-June.html" class="event">2025 June</a>
     <a href="2025-July.html" class="event">2025 July</a>
   </div>
+  <!-- 數日子 -->
   <div class="date-counter">
     <p> Chatted for <span id="chat-days"></span> Days</p>
-    <p> From our First Met <span id="meet-days"></span> Days</p>
+    <p> From The First Time We Met <span id="meet-days"></span> Days</p>
     <p> In Love with You <span id="love-days"></span> Days</p>
   <footer class="footer-centered">❤️ Forever and always ❤️</footer>
   </div>
   <script src="script.js"></script>
+  <!-- Memo 覆蓋畫面（預設隱藏） -->
+  <div id="memo-modal" class="memo-card">
+    <div class="memo-content">
+      <h3>📝 2025-03-26 First Chat</h3>
+      <p>那天我們第一次聊天，在彼此的世界裡悄悄劃下一筆。</p>
+      <p>沒想到短短的幾個對話，就那麼自然地延續到了現在⋯</p>
+      <button onclick="closeMemo()" class="back-button">← Back</button>
+    </div>
+  </div>
+  <!-- Memo for Bii With You -->
+  <div id="memo-bii" class="memo-card">
+    <div class="memo-content">
+      <h3>🎵 2025-04-19 Bii With You</h3>
+      <p>那天音樂包圍了我們，一首歌就是我們的心聲。</p>
+      <p>《我想要你的愛》不只是旋律，更像一種默契。</p>
+      <button onclick="closeBiiMemo()" class="back-button">← Back</button>
+      </div>
+    </div>
+  <!-- Memo for other dates in april -->
+    <div id="memo-april" class="memo-card">
+      <div class="memo-content">
+        <h3>Other Dates in April</h3>
+        <p>2025-04-20 LalaPort</p>
+        <p>前一晚,計程車上</p>
+        <p>你問我要不要隔天一起去牽車</p>
+        <p>2025-04-27 Dinner</p>
+        <button onclick="closeAprilMemo()" class="back-button">← Back</button>
+        </div>
+      </div>
+  </div>
 </body>
+
+
   <style>
+    .memo-card {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      background-color: rgba(255, 239, 239, 0.85);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 999;
+    }
+
+    .memo-content {
+      padding: 30px 24px;
+      background: #fff8f0;
+      padding: 30px;
+      width: 300px;
+      border-radius: 12px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+      font-family: "Verdana", sans-serif;
+      text-align: left;
+      position: relative;
+    }
+
+    .back-button {
+      position: absolute;
+      bottom: 16px;
+      right: 16px;
+      background-color: #d63384;
+      color: white;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.85em;
+    }
+
+    .back-button:hover {
+      background-color: #c02775;
+    }
     .section-title {
       text-align: center;
       margin: 30px 0;
@@ -100,6 +182,31 @@
       text-align: center;
     }
   </style>
-  
+
+ 
+  <script>
+    function openMemo() {
+      document.getElementById("memo-modal").style.display = "flex";
+    }
+    function closeMemo() {
+      document.getElementById("memo-modal").style.display = "none";
+    }
+  </script>
+  <script>
+  function openBiiMemo() {
+    document.getElementById("memo-bii").style.display = "flex";
+  }
+  function closeBiiMemo() {
+    document.getElementById("memo-bii").style.display = "none";
+  }
+     </script>
+  <script>
+    function openAprilMemo() {
+      document.getElementById("memo-april").style.display = "flex";
+    }
+    function closeAprilMemo() {
+      document.getElementById("memo-april").style.display = "none";
+    }
+       </script>
 </html>
 

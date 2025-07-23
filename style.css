@@ -1,11 +1,26 @@
+
+#lock-screen {
+  text-align: center;
+  padding: 40px;
+  background-color: #fff3f8;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  max-width: 300px;
+  margin: 100px auto;
+}
+
 body {
-  margin: 0;
+  max-width: 800px;
+  padding: 0 24px;
+  margin: auto;
   font-family: 'Helvetica Neue', sans-serif;
   background: #f9ebcd;
   color: #333;
 }
 
 .container {
+  max-width: 800px;
+  padding: 0 24px;
   position: relative
   max-width: 800px;
   margin: 60px auto;
@@ -33,6 +48,8 @@ h1 {
 }
 
 .timeline {
+  max-width: 800px;
+  margin: auto;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 16px;

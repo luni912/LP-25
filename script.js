@@ -24,3 +24,14 @@ function countUp(id, target) {
 countUp("chat-days", getDaysDiff(chatStart));
 countUp("meet-days", getDaysDiff(firstMeet));
 countUp("love-days", getDaysDiff(loveStart));
+
+function checkPassword() {
+  const input = document.getElementById("password-input").value;
+  const errorMsg = document.getElementById("error-message");
+  if (input === "3") {
+    document.getElementById("lock-screen").style.display = "none";
+    document.getElementById("main-content").style.display = "block";
+  } else {
+    errorMsg.textContent = "密碼錯誤，請再試一次！";
+  }
+}
