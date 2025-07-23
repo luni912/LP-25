@@ -6,15 +6,21 @@ body {
 }
 
 .container {
-  max-width: 1020px;
+  position: relative
+  max-width: 800px;
   margin: 60px auto;
   padding: 30px;
   background: #fff0d6;
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.1);
   text-align: center;
+  overflow: hidden;
 }
-
+.container::after {
+  content: '';
+  display: block;
+  clear: both;
+}
 h1 {
   color: #6e0a75;
   font-size: 2em;
@@ -48,13 +54,14 @@ h1 {
 }
 
 .event:hover {
-  background: #000000;
+  background: #ec8e8e;
 }
 
 footer {
-  margin-top: 40px;
+  margin-top: 30px;
   font-weight: bold;
   color: #000000;
+  text-align: center;
 }
 .week-labels {
   display: grid;
