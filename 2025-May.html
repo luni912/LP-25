@@ -29,7 +29,7 @@
         <div class="detail">美術館蕭煌奇</div>
       </div>
 
-      <div class="day wd">
+      <div class="day wd" onclick="openMemo('2025-05-05')">
         <div class="date-label">5</div>
         <div class="detail">正式在一起💘</div>
       </div>
@@ -61,7 +61,7 @@
         <div class="date-label">18</div>
         <div class="detail">基隆晚餐</div>
       </div>
-      <div class="day wd">
+      <div class="day wd" onclick="openMemo('2025-05-19')">
         <div class="date-label">19</div>
         <div class="detail">宵夜一起</div>
       </div>
@@ -87,7 +87,228 @@
       <div class="day wkn"><div class="date-label"></div><div class="detail"></div></div>
     </div>
 
-    <footer>一起走過的每個美好日子 ❤️</footer>
+    <footer>一起走過的美好日子 ❤️</footer>
   </div>
+  <!-- Memo 寫日記視窗 -->
+  <div id="memo-entry" class="memo-card">
+    <div class="memo-content">
+      <h3 id="memo-title">📝 回憶日記</h3>
+
+      <!-- 📌 留言列表放在這裡，輸入區之上 -->
+      <div id="memo-list" class="memo-list"></div>
+
+      <!-- ✍️ 輸入區 -->
+      <textarea id="memo-text" placeholder="寫下今天的回憶..."></textarea>
+      <input type="password" id="memo-password" placeholder="密碼（輸入 3）"/>
+      <button onclick="submitMemo()" class="back-button submit">送出</button>
+
+      <button onclick="closeMemoEntry()" class="back-button home">← 回首頁</button>
+    </div>
+  </div>
+
+  <style>
+    .memo-list {
+      margin-top: 20px;
+      max-height: 200px;
+      overflow-y: auto;
+      font-size: 0.9em;
+    }
+
+    .memo-item {
+      background: #fff;
+      padding: 8px;
+      margin-bottom: 8px;
+      border-radius: 6px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+      position: relative;
+    }
+
+    .memo-item button {
+      position: static;
+      right: 8px;
+      top: 8px;
+      background: transparent;
+      border: none;
+      color: #d63384;
+      cursor: pointer;
+      font-size: 0.8em;
+    }
+    .memo-card {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      background-color: rgba(255, 239, 239, 0.85);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 999;
+    }
+
+    .memo-content {
+      background: #fff8f0;
+      padding: 30px;
+      width: 300px;
+      border-radius: 12px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+      font-family: "Verdana", sans-serif;
+      text-align: left;
+      position: relative;
+    }
+
+    .back-button {
+      position: absolute;
+      bottom: 16px;
+      right: 16px;
+      background-color: #d63384;
+      color: white;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.85em;
+    }
+    .back-button.home {
+        position: fixed;
+        bottom: 16px;
+        right: 16px;
+        background: transparent;
+        border: none;
+        color: #666;
+        font-size: 0.85em;
+        cursor: pointer;
+      }
+     .back-button.submit {
+        display: block;
+        margin: 20px auto 0 auto;
+        background-color: #d63384;
+        color: white;
+        border: none;
+        padding: 8px 20px;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 0.9em;
+      }
+      .memo-content {
+        max-height: 80vh;
+        overflow-y: auto;
+      }
+    .memo-actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 6px;
+      gap: 12px;
+    }
+
+    .edit-btn, .delete-btn {
+      background: transparent;
+      border: none;
+      color: #d63384;
+      cursor: pointer;
+      font-size: 0.85em;
+      padding: 6px 12px;
+      flex-shrink: 0;
+    }
+
+    .memo-text {
+      margin-bottom: 6px;
+    }
+
+    .edit-box {
+      width: 100%;
+      margin-top: 6px;
+      font-size: 0.9em;
+      padding: 6px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+    .memo-text {
+        margin-bottom: 6px;
+      }
+    
+    
+    }
+  </style>
+  <!-- JS開關memo -->
+  <script>
+    let currentDate = "";
+
+    function openMemo(dateId) {
+      currentDate = dateId;
+      document.getElementById("memo-title").textContent = `📝 ${dateId} 的留言板`;
+      document.getElementById("memo-entry").style.display = "flex";
+      loadMemos();
+    }
+
+    function closeMemoEntry() {
+      document.getElementById("memo-entry").style.display = "none";
+      document.getElementById("memo-text").value = "";
+      document.getElementById("memo-password").value = "";
+      document.getElementById("memo-list").innerHTML = "";
+    }
+
+    function submitMemo() {
+      const text = document.getElementById("memo-text").value.trim();
+      const password = document.getElementById("memo-password").value;
+      if (password !== "3" || text.length === 0) return alert("請輸入密碼與內容");
+
+      const memos = JSON.parse(localStorage.getItem("memo_" + currentDate) || "[]");
+      memos.push(text);
+      localStorage.setItem("memo_" + currentDate, JSON.stringify(memos));
+      document.getElementById("memo-text").value = "";
+      loadMemos();
+    }
+
+    function loadMemos() {
+      const list = document.getElementById("memo-list");
+      const memos = JSON.parse(localStorage.getItem("memo_" + currentDate) || "[]");
+      list.innerHTML = "";
+
+      memos.forEach((msg, index) => {
+        const item = document.createElement("div");
+        item.className = "memo-item";
+
+        item.innerHTML = `
+          <div class="memo-text" id="memo-text-${index}">${msg}</div>
+          <div class="memo-actions">
+            <button onclick="startEdit(${index})" class="edit-btn">✏️</button>
+            <button onclick="confirmDelete(${index})" class="delete-btn">🗑</button>
+          </div>
+        `;
+        
+        list.appendChild(item);
+      });
+    }
+    function startEdit(index) {
+      const memos = JSON.parse(localStorage.getItem("memo_" + currentDate) || "[]");
+      const currentText = memos[index];
+      const textDiv = document.getElementById(`memo-text-${index}`);
+
+      textDiv.innerHTML = `
+        <textarea id="edit-input-${index}" class="edit-box">${currentText}</textarea>
+        <button onclick="applyEdit(${index})">儲存</button>
+      `;
+    }
+
+    function applyEdit(index) {
+      const memos = JSON.parse(localStorage.getItem("memo_" + currentDate) || "[]");
+      const newText = document.getElementById(`edit-input-${index}`).value.trim();
+      if (newText.length === 0) return alert("請勿儲存空內容");
+
+      memos[index] = newText;
+      localStorage.setItem("memo_" + currentDate, JSON.stringify(memos));
+      loadMemos();
+    }
+    function deleteMemo(index) {
+      const memos = JSON.parse(localStorage.getItem("memo_" + currentDate) || "[]");
+      memos.splice(index, 1);
+      localStorage.setItem("memo_" + currentDate, JSON.stringify(memos));
+      loadMemos();
+    }
+    function confirmDelete(index) {
+      const ok = confirm("確定要刪除這則留言嗎？");
+      if (ok) deleteMemo(index);
+    }
+  </script>
 </body>
 </html>
