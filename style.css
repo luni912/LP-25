@@ -1,7 +1,7 @@
 body {
   margin: 0;
   font-family: 'Helvetica Neue', sans-serif;
-  background: #000000;
+  background: #f9ebcd;
   color: #333;
 }
 
@@ -33,11 +33,25 @@ h1 {
 }
 
 .timeline {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+.timeline .event {
+  background: #ffe09e;
+  padding: 12px;
+  border-radius: 8px;
+  border-left: 6px solid #fbdfa2;
+  box-shadow: 0 2px 6px rgb(251, 208, 208,0.05);
+  text-decoration: none;
+  color: #333;
+  text-align: left;
+  transition: background 0.3s;
 }
 
+.timeline .event:hover {
+  background: #ec8e8e;
+}
 .event {
   display:block;
   margin-bottom: 20px;
@@ -123,4 +137,32 @@ footer {
   line-height: 1.2;
   word-break: break-word;
   overflow-wrap: break-word;
+}
+.date-counter {
+  text-align: center;
+  font-size: 0.9em;
+  color: #555;
+  margin-top: 20px;
+  line-height: 1.6;
+}
+
+.section-title {
+  text-align: center;
+  margin: 30px 0;
+}
+.section-title h2 {
+  font-size: 2em;
+  color: #d63384;
+  margin-bottom: 10px;
+}
+.section-title .subtitle {
+  font-size: 1em;
+  color: #555;
+}
+
+.footer-centered {
+  text-align: center;
+  margin-top: 40px;
+  font-weight: bold;
+  color: #d63384;
 }
