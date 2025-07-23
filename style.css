@@ -1,4 +1,9 @@
 
+@media (max-width:768px){
+  .container{
+    flex-direction: column;
+  }
+}
 #lock-screen {
   text-align: center;
   padding: 40px;
@@ -19,14 +24,14 @@ body {
 }
 
 .container {
-  max-width: 800px;
-  padding: 0 24px;
+  max-width: 100%;
+  height: 100vh;
   position: relative
-  max-width: 800px;
-  margin: 60px auto;
-  padding: 30px;
+  margin: 0 auto;
+  padding: 16px;
   background: #fff0d6;
   border-radius: 12px;
+  box-sizing: border-box
   box-shadow: 0 4px 12px rgba(0,0,0,0.1);
   text-align: center;
   overflow: hidden;
@@ -107,25 +112,31 @@ footer {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
   gap: 6px;
-  margin-top: 16px 0;
-  min-width: 560px;
+  max-width: 100%;
 }
-.calendar-grid-wrapper {
-  overflow-x: auto;
+.calendar-grid .day:nth-child(7n+6),
+.calendar-grid .day:nth-child(7n+7) {
+  background-color: #fbe2ec; /* 淡粉色 */
 }
+
 .calendar-wrapper {
-  overflow-x: auto;
-  padding-bottom: 10px;
+  box-sizing: border-box;
+  width: 100%;
+  padding: 0 12px;
 }
 .day {
+  border: 1px solid #eee;
   aspect-ratio: 1 / 1;
   background: #fff;
-  padding: 4px;
+  padding: 8px;
+  min-height: 80px;
   border-radius: 8px;
   box-shadow: 0 2px 6px rgba(0,0,0,0.05);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  font-size: clamp(0.7em, 1vw, 0.9em);
+  text-align: center;
   
 }
 
@@ -149,16 +160,17 @@ footer {
 /* 日期與詳細文字 */
 .date-label {
   font-weight: bold;
-  font-size: 0.9em;
+  font-size: 14px;
   margin-bottom: 4px;
   color: #d63384;
 }
 
 .detail {
-  font-size: 0.8em;
+  font-size: 11px;
   color: #555;
   text-align: left;
   line-height: 1.2;
+  min-height: 1.2em
   word-break: break-word;
   overflow-wrap: break-word;
 }
