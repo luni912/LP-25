@@ -67,6 +67,7 @@
   margin-bottom: 10px;
 }
 .month-title {
+  text-align: center;
   color: #ffffff;
   text-shadow: #4a4a4a 1px 1px 2px
 }
@@ -437,17 +438,36 @@ footer {
   background: #e5f2fb
 }
 
-.back-button {
-  position: absolute;
-  bottom: 16px;
-  right: 16px;
-  background-color: #efaecf;
-  color: white;
+back-button {
+  display: inline-block;
+  font-size: 1rem;
+  padding: 10px 16px;
+  margin: 16px auto;
+  color: #ffffff;
+  background-color: #6C63FF; /* 可改為主題色 */
   border: none;
-  padding: 6px 12px;
-  border-radius: 6px;
+  border-radius: 999px;
+  text-decoration: none;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   cursor: pointer;
-  font-size: 0.85em;
+  transition: all 0.3s ease;
+  text-align: center;
+  font-weight: bold;
+}
+
+.back-button:hover {
+  background-color: #ffe5e5;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.15);
+}
+
+@media (max-width: 768px) {
+  .back-button {
+    display: block;
+    width: fit-content;
+    margin: 16px auto;
+  }
+}
 }
 .back-button.home {
     position: fixed;
