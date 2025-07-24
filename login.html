@@ -3,7 +3,33 @@
 <html lang="zh">
 <head>
   <meta charset="UTF-8" />
-  <title>登入頁面</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <title>進入回憶牆</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="login-wrapper">
+    <p class="subtitle">開啟回憶之門</p>
+    <input type="password" id="password-input" placeholder="最美的數字..." />
+    <button onclick="checkPassword()">進入回憶</button>
+    <p id="error-message" style="color: red;"></p>
+  </div>
+
+<style>
+  body {
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(to bottom right, #ffe4ea, #fff5d7);
+    font-family: 'Helvetica Neue', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+</style>
+
+
+  
   <script>
     function checkPassword() {
       const input = document.getElementById("password-input").value.trim();
@@ -11,17 +37,9 @@
         localStorage.setItem("isLoggedIn", "true");
         window.location.href = "./index.html";
       } else {
-        alert("密碼錯誤！");
+        document.getElementById("error-message").textContent = "密碼錯誤，請再試一次";
       }
     }
   </script>
-</head>
-<body>
-  <div id="lock-screen">
-    <h2>KEY</h2>
-    <input type="password" id="password-input" placeholder="最美的數字..." />
-    <button onclick="checkPassword()">Enter</button>
-    <p id="error-message" style="color: red;"></p>
-  </div>
 </body>
 </html>
