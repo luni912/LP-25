@@ -159,7 +159,7 @@ body {
 footer {
   margin-top: 30px;
   font-weight: bold;
-  color: #000000;
+  color: #908989;
   text-align: center;
 }
 .week-labels {
@@ -262,9 +262,10 @@ footer {
 
 .footer-centered {
   text-align: center;
-  margin-top: 40px;
+  margin-top: 20px;
+  margin-bottom: 40px;
   font-weight: bold;
-  color: #d63384;
+  color: #968d91;
 }
 #memo-entry textarea {
   width: 100%;
