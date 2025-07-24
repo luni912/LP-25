@@ -150,19 +150,22 @@
   </div>
     <footer>一起走過的美好日子 ❤️</footer>
 
-  <!-- 留言面板 -->
+  <!-- 留言彈出面板 -->
   <div class="memo-card" id="memo-entry">
     <div class="memo-content">
       <div id="memo-detail-preview"></div>
       <h3 id="memo-title">留言板</h3>
       <div id="memo-list" class="memo-list"></div>
-      <textarea id="memo-text" placeholder="輸入留言..."></textarea>
-      <input type="password" id="memo-password" placeholder="password" style="width:100%; margin-top: 5px;" />
-      <button onclick="submitMemoHandler()" style="margin-top:5px;">送出</button>
-      <div class="back-button" onclick="closeMemoEntry()">回日曆</div>
+
+      <div class="memo-input">
+        <textarea id="memo-text" placeholder="輸入留言..."></textarea>
+        <input type="password" id="memo-password" placeholder="密碼 (預設3)" />
+        <button onclick="submitMemoHandler()" class="submit-btn">送出留言</button>
+      </div>
+
+      <button class="back-button" onclick="closeMemoEntry()">回日曆</button>
     </div>
   </div>
-
   <!-- Firebase SDK -->
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
@@ -181,65 +184,98 @@
 
     // 初始化 Firebase
     firebase.initializeApp(firebaseConfig);
-    const db = firebase.database();
+      const db = firebase.database();
+      let currentDate = "";
 
-    let currentDate = "";
-
-    function openMemo(dateId) {
-      const selectedDay = document.querySelector(`.day[data-date="${dateId}"]`);
-      const detailText = selectedDay?.querySelector(".detail")?.textContent.trim();
-      document.getElementById("memo-detail-preview").textContent = detailText || " ";
-      currentDate = dateId;
-      document.getElementById("memo-title").textContent = `📝 ${dateId} 的留言板`;
-      document.getElementById("memo-entry").style.display = "flex";
-      loadMemos(dateId);
-    }
-
-    function closeMemoEntry() {
-      document.getElementById("memo-entry").style.display = "none";
-      document.getElementById("memo-text").value = "";
-      document.getElementById("memo-password").value = "";
-      document.getElementById("memo-list").innerHTML = "";
-    }
-
-    function submitMemoHandler() {
-      const text = document.getElementById("memo-text").value.trim();
-      const password = document.getElementById("memo-password").value;
-
-      if (password !== "3" || text.length === 0) {
-        alert("請輸入密碼與內容");
-        return;
+      function openMemo(dateId) {
+        currentDate = dateId;
+        const selectedDay = document.querySelector(`.day[data-date="${dateId}"]`);
+        const detailText = selectedDay?.querySelector(".detail")?.textContent.trim();
+        document.getElementById("memo-detail-preview").textContent = detailText || " ";
+        document.getElementById("memo-title").textContent = `📝 ${dateId} 的留言板`;
+        document.getElementById("memo-entry").style.display = "flex";
+        loadMemos(dateId);
       }
 
-      submitMemo(currentDate, text);
-      document.getElementById("memo-text").value = "";
-    }
+      function closeMemoEntry() {
+        document.getElementById("memo-entry").style.display = "none";
+        document.getElementById("memo-text").value = "";
+        document.getElementById("memo-password").value = "";
+        document.getElementById("memo-list").innerHTML = "";
+      }
 
-    function submitMemo(dateId, text) {
-      db.ref(`memos/${dateId}/messages`).push({
-        text,
-        timestamp: Date.now()
-      }).then(() => loadMemos(dateId));
-    }
+      function submitMemoHandler() {
+        const text = document.getElementById("memo-text").value.trim();
+        const password = document.getElementById("memo-password").value;
 
-    function loadMemos(dateId) {
-      db.ref(`memos/${dateId}/messages`).once("value").then(snapshot => {
-        const messages = snapshot.val();
-        const container = document.getElementById("memo-list");
-        container.innerHTML = "";
-
-        if (messages) {
-          for (let id in messages) {
-            const msg = messages[id];
-            const item = document.createElement("div");
-            item.className = "memo-item";
-            item.innerHTML = `
-              <div class="memo-text">💬 ${msg.text}</div>`;
-            container.appendChild(item);
-          }
+        if (!text || password !== "3") {
+          alert("請輸入留言內容與正確密碼");
+          return;
         }
-      });
-    }
-  </script>
-</body>
+
+        db.ref(`memos/${currentDate}/messages`).push({
+          text,
+          timestamp: Date.now()
+        }).then(() => {
+          document.getElementById("memo-text").value = "";
+          loadMemos(currentDate);
+        });
+      }
+
+      function loadMemos(dateId = currentDate) {
+        db.ref(`memos/${dateId}/messages`).once("value").then(snapshot => {
+          const messages = snapshot.val();
+          const list = document.getElementById("memo-list");
+          list.innerHTML = "";
+
+          if (messages) {
+            Object.entries(messages).forEach(([id, data]) => {
+              const item = document.createElement("div");
+              item.className = "memo-item";
+              item.innerHTML = `
+                <div class="memo-text" id="memo-text-${id}">${data.text}</div>
+                <div class="memo-actions" id="actions-${id}">
+                  <button onclick="startEdit('${id}')">✏️</button>
+                  <button onclick="confirmDelete('${id}')">🗑</button>
+                </div>
+              `;
+              list.appendChild(item);
+            });
+          }
+        });
+      }
+
+      function startEdit(id) {
+        const textDiv = document.getElementById(`memo-text-${id}`);
+        const actionsDiv = document.getElementById(`actions-${id}`);
+        const originalText = textDiv.textContent;
+
+        textDiv.innerHTML = `
+          <textarea class="edit-box" id="edit-${id}">${originalText}</textarea>
+          <button onclick="saveEdit('${id}')">💾 保存</button>
+        `;
+        actionsDiv.style.display = "none";
+      }
+
+      function saveEdit(id) {
+        const newText = document.getElementById(`edit-${id}`).value.trim();
+        if (!newText) {
+          alert("內容不可空白");
+          return;
+        }
+
+        db.ref(`memos/${currentDate}/messages/${id}`).update({ text: newText }).then(() => {
+          loadMemos(currentDate);
+        });
+      }
+
+      function confirmDelete(id) {
+        if (confirm("確定要刪除這則留言嗎？")) {
+          db.ref(`memos/${currentDate}/messages/${id}`).remove().then(() => {
+            loadMemos(currentDate);
+          });
+        }
+      }
+    </script>
+  </body>
 </html>
