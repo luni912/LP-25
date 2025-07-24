@@ -1,0 +1,27 @@
+<!-- login.html 裡是密碼輸入畫面 -->
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8" />
+  <title>登入頁面</title>
+  <script>
+    function checkPassword() {
+      const input = document.getElementById("password-input").value.trim();
+      if (input === "3") {
+        localStorage.setItem("isLoggedIn", "true");
+        window.location.href = "./index.html";
+      } else {
+        alert("密碼錯誤！");
+      }
+    }
+  </script>
+</head>
+<body>
+  <div id="lock-screen">
+    <h2>KEY</h2>
+    <input type="password" id="password-input" placeholder="最美的數字..." />
+    <button onclick="checkPassword()">Enter</button>
+    <p id="error-message" style="color: red;"></p>
+  </div>
+</body>
+</html>

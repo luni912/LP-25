@@ -27,11 +27,15 @@ countUp("love-days", getDaysDiff(loveStart));
 
 function checkPassword() {
   const input = document.getElementById("password-input").value;
-  const errorMsg = document.getElementById("error-message");
   if (input === "3") {
-    document.getElementById("lock-screen").style.display = "none";
-    document.getElementById("main-content").style.display = "block";
+    localStorage.setItem("isLoggedIn", "true");
+    window.location.href = "./home.html"; // 登入成功跳主頁
   } else {
-    errorMsg.textContent = "密碼錯誤，請再試一次！";
+    alert("密碼錯誤！");
   }
 }
+document.addEventListener("DOMContentLoaded", () => {
+  if (localStorage.getItem("isLoggedIn") !== "true") {
+    window.location.href = "./login.html"; // 如果沒登入，回去輸密碼頁
+  }
+});

@@ -9,16 +9,9 @@
 </head>
 
 <body>
-  <!-- 密碼輸入畫面 -->
-  <div id="lock-screen">
-    <h2>KEY</h2>
-    <input type="password" id="password-input" placeholder="最美的數字..." />
-    <button onclick="checkPassword()">Enter</button>
-    <p id="error-message" style="color: red;"></p>
-  </div>
+  
 
-  <!-- 真正主頁內容（預設隱藏） -->
-  <div id="main-content" style="display: none;">
+  <!-- 真正主頁內容 -->
   <div class="section-title">
     <h2>I Love You 3000</h2>
     <p class="intro">走在一起是緣分，一起在走是幸福</p>
@@ -183,7 +176,13 @@
     }
   </style>
 
-
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      if (localStorage.getItem("isLoggedIn") !== "true") {
+        window.location.href = "./login.html";
+      }
+    });
+  </script>
   <script>
     function openMemo() {
       document.getElementById("memo-modal").style.display = "flex";
