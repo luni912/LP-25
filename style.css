@@ -237,6 +237,10 @@ footer {
   min-height: 1.2em
   word-break: break-word;
   overflow-wrap: break-word;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 .date-counter {
   text-align: center;
@@ -266,6 +270,10 @@ footer {
   margin-bottom: 40px;
   font-weight: bold;
   color: #968d91;
+}
+#memo-title{
+  font-size: 1em;
+  color: #cca4f4;
 }
 #memo-entry textarea {
   width: 100%;
@@ -387,6 +395,14 @@ footer {
 .memo-text {
     margin-bottom: 6px;
   }
+.memo-preview {
+  font-size: 0.95em;
+  color: #333;
+  margin-bottom: 12px;
+  text-align: center;
+  display: block;
+  background: #e5f2fb
+}
 
 .back-button {
   position: absolute;
