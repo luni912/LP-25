@@ -437,14 +437,23 @@ footer {
   display: block;
   background: #e5f2fb
 }
-
-back-button {
+.back-button-memo {
+  display: block;
+  margin: 20px auto 0 auto;
+  background-color: #f4c3db;
+  color: white;
+  border: none;
+  padding: 8px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9em
+}
+.back-button {
   display: inline-block;
   font-size: 1rem;
   padding: 10px 16px;
   margin: 16px auto;
-  color: #ffffff;
-  background-color: #6C63FF; /* 可改為主題色 */
+  color: #f5c2c2;
   border: none;
   border-radius: 999px;
   text-decoration: none;
