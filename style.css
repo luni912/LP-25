@@ -271,6 +271,15 @@ footer {
   font-weight: bold;
   color: #968d91;
 }
+#memo-detail-preview {
+  background-color: #f8f8f8;
+  padding: 6px 10px;
+  font-family: Georgia, serif;
+  font-size: 15px;
+  color: #333;
+  margin-bottom: 10px;
+  white-space: pre-wrap;
+}
 #memo-title{
   font-size: 1em;
   color: #cca4f4;

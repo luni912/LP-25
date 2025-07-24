@@ -1,4 +1,8 @@
-  const today = new Date();
+document.addEventListener("DOMContentLoaded", () => {
+  // 所有邏輯寫在這裡，確保 db 已定義
+  console.log("db 是否存在：", typeof db);
+});
+const today = new Date();
   const chatStart = new Date("2025-03-26");
   const firstMeet = new Date("2025-04-19");
   const loveStart = new Date("2025-05-05");
@@ -39,4 +43,7 @@ document.addEventListener("DOMContentLoaded", () => {
     window.location.href = "./login.html"; // 如果沒登入，回去輸密碼頁
   }
 });
+
+
+
 

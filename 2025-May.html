@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>2025 May Memories</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-    <a href="index.html" class="back-button">← back</a>
+  <a href="index.html" class="back-button">← back</a>
     <h1 class="month-title">2025 May Memories</h1>
 
     <!-- 日曆格子 -->
@@ -149,40 +149,50 @@
     </div>
   </div>
     <footer>一起走過的美好日子 ❤️</footer>
-  
-  <!-- Memo 寫日記視窗 -->
-  
-  <div id="memo-entry" class="memo-card">
+
+  <!-- 留言面板 -->
+  <div class="memo-card" id="memo-entry">
     <div class="memo-content">
-      <div id="memo-detail-preview" class="memo-preview"></div>
-      <h3 id="memo-title">📝 回憶日記</h3>
-
-      <!-- 📌 留言列表放在這裡，輸入區之上 -->
+      <div id="memo-detail-preview"></div>
+      <h3 id="memo-title">留言板</h3>
       <div id="memo-list" class="memo-list"></div>
-
-      <!-- ✍️ 輸入區 -->
-      <textarea id="memo-text" placeholder="寫下今天的回憶..."></textarea>
-      <input type="password" id="memo-password" placeholder="密碼"/>
-      <button onclick="submitMemo()" class="back-button submit">送出</button>
-
-      <button onclick="closeMemoEntry()" class="back-button home">← 回首頁</button>
+      <textarea id="memo-text" placeholder="輸入留言..."></textarea>
+      <input type="password" id="memo-password" placeholder="password" style="width:100%; margin-top: 5px;" />
+      <button onclick="submitMemoHandler()" style="margin-top:5px;">送出</button>
+      <div class="back-button" onclick="closeMemoEntry()">回日曆</div>
     </div>
   </div>
 
-  
-  <!-- JS開關memo -->
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+
   <script>
+    // Firebase 設定
+    const firebaseConfig = {
+      apiKey: "AIzaSyC3mcSomg_cL8klJ61ZoDyh3XqHjaX6Nqc",
+      authDomain: "lp-25-bd9bf.firebaseapp.com",
+      databaseURL: "https://lp-25-bd9bf-default-rtdb.firebaseio.com",
+      projectId: "lp-25-bd9bf",
+      storageBucket: "lp-25-bd9bf.appspot.com",
+      messagingSenderId: "956448773615",
+      appId: "1:956448773615:web:7a17660f30e39c27a6921a"
+    };
+
+    // 初始化 Firebase
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+
+    let currentDate = "";
+
     function openMemo(dateId) {
       const selectedDay = document.querySelector(`.day[data-date="${dateId}"]`);
       const detailText = selectedDay?.querySelector(".detail")?.textContent.trim();
-      console.log("選到的格子：", selectedDay);
-      console.log("抓到的 detail：", detailText);
-      document.getElementById("memo-detail-preview").textContent = detailText || "   ";
-      // 以下是你的原本跳出 memo 的邏輯
+      document.getElementById("memo-detail-preview").textContent = detailText || " ";
       currentDate = dateId;
       document.getElementById("memo-title").textContent = `📝 ${dateId} 的留言板`;
       document.getElementById("memo-entry").style.display = "flex";
-      loadMemos();
+      loadMemos(dateId);
     }
 
     function closeMemoEntry() {
@@ -192,70 +202,44 @@
       document.getElementById("memo-list").innerHTML = "";
     }
 
-    function submitMemo() {
+    function submitMemoHandler() {
       const text = document.getElementById("memo-text").value.trim();
       const password = document.getElementById("memo-password").value;
-      if (password !== "3" || text.length === 0) return alert("請輸入密碼與內容");
 
-      const memos = JSON.parse(localStorage.getItem("memo_" + currentDate) || "[]");
-      memos.push(text);
-      localStorage.setItem("memo_" + currentDate, JSON.stringify(memos));
+      if (password !== "3" || text.length === 0) {
+        alert("請輸入密碼與內容");
+        return;
+      }
+
+      submitMemo(currentDate, text);
       document.getElementById("memo-text").value = "";
-      loadMemos();
     }
 
-    function loadMemos() {
-      const list = document.getElementById("memo-list");
-      const memos = JSON.parse(localStorage.getItem("memo_" + currentDate) || "[]");
-      list.innerHTML = "";
+    function submitMemo(dateId, text) {
+      db.ref(`memos/${dateId}/messages`).push({
+        text,
+        timestamp: Date.now()
+      }).then(() => loadMemos(dateId));
+    }
 
-      memos.forEach((msg, index) => {
-        const item = document.createElement("div");
-        item.className = "memo-item";
+    function loadMemos(dateId) {
+      db.ref(`memos/${dateId}/messages`).once("value").then(snapshot => {
+        const messages = snapshot.val();
+        const container = document.getElementById("memo-list");
+        container.innerHTML = "";
 
-        item.innerHTML = `
-          <div class="memo-actions">
-            <button onclick="startEdit(${index})" class="edit-btn">✏️</button>
-            <div class="memo-text" id="memo-text-${index}">${msg}</div>
-            <button onclick="confirmDelete(${index})" class="delete-btn">🗑</button>
-          </div>
-        `;
-        
-        list.appendChild(item);
+        if (messages) {
+          for (let id in messages) {
+            const msg = messages[id];
+            const item = document.createElement("div");
+            item.className = "memo-item";
+            item.innerHTML = `
+              <div class="memo-text">💬 ${msg.text}</div>`;
+            container.appendChild(item);
+          }
+        }
       });
     }
-    function startEdit(index) {
-      const memos = JSON.parse(localStorage.getItem("memo_" + currentDate) || "[]");
-      const currentText = memos[index];
-      const textDiv = document.getElementById(`memo-text-${index}`);
-
-      textDiv.innerHTML = `
-        <textarea id="edit-input-${index}" class="edit-box">${currentText}</textarea>
-        <button onclick="applyEdit(${index})">儲存</button>
-      `;
-    }
-
-    function applyEdit(index) {
-      const memos = JSON.parse(localStorage.getItem("memo_" + currentDate) || "[]");
-      const newText = document.getElementById(`edit-input-${index}`).value.trim();
-      if (newText.length === 0) return alert("請勿儲存空內容");
-
-      memos[index] = newText;
-      localStorage.setItem("memo_" + currentDate, JSON.stringify(memos));
-      loadMemos();
-    }
-    function deleteMemo(index) {
-      const memos = JSON.parse(localStorage.getItem("memo_" + currentDate) || "[]");
-      memos.splice(index, 1);
-      localStorage.setItem("memo_" + currentDate, JSON.stringify(memos));
-      loadMemos();
-    }
-    function confirmDelete(index) {
-      const ok = confirm("確定要刪除這則留言嗎？");
-      if (ok) deleteMemo(index);
-    }
-
-
-</script>
+  </script>
 </body>
 </html>
