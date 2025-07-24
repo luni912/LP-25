@@ -39,3 +39,4 @@ document.addEventListener("DOMContentLoaded", () => {
     window.location.href = "./login.html"; // 如果沒登入，回去輸密碼頁
   }
 });
+

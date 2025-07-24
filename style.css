@@ -63,21 +63,36 @@
 }
 .section-title h2 {
   font-size: 2em;
-  color: #791b4a;
+  color: #f5add1;
   margin-bottom: 10px;
 }
-h1 {
+.month-title {
+  color: #ffffff;
+  text-shadow: #4a4a4a 1px 1px 2px
+}
+.main-title {
+  color: #ffffff;
+  text-shadow: #ffd642 1px 1px 2px;;
   text-align: center;
-  font-size: 2.2em;
-  color: #791b4a;
-  margin-top: 20px;
+}
+.quote {
+  color: #f2a1a1;
+  font-size: 0.9em;
+  font-weight: 500;
+  text-align: center;
+  margin-bottom: 20px
+}
+.intro {
+  color: #f2a1a1
+  font-size: 1.1em;
+  margin-bottom: 24px;
 }
 body {
   max-width: 800px;
   padding: 0 24px;
   margin: auto;
   font-family: 'Helvetica Neue', sans-serif;
-  background: #f9ebcd;
+  background: #fff3f8;
   color: #333;
 }
 
@@ -98,16 +113,6 @@ body {
   content: '';
   display: block;
   clear: both;
-}
-h1 {
-  color: #6e0a75;
-  font-size: 2em;
-  margin-bottom: 20px;
-}
-
-.intro {
-  font-size: 1.1em;
-  margin-bottom: 24px;
 }
 
 .timeline {
@@ -294,3 +299,124 @@ footer {
   white-space: pre-wrap;
   text-align: left;
 }
+.memo-list {
+  margin-top: 20px;
+  max-height: 200px;
+  overflow-y: auto;
+  font-size: 0.9em;
+}
+
+.memo-item {
+  background: #fff;
+  padding: 8px;
+  margin-bottom: 8px;
+  border-radius: 6px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  position: relative;
+}
+
+.memo-item button {
+  position: static;
+  right: 8px;
+  top: 8px;
+  background: transparent;
+  border: none;
+  color: #d63384;
+  cursor: pointer;
+  font-size: 0.8em;
+}
+.memo-card {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw; height: 100vh;
+  background-color: rgba(255, 239, 239, 0.85);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+.memo-content {
+  background: #fff8f0;
+  padding: 30px;
+  width: 300px;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+  font-family: "Verdana", sans-serif;
+  text-align: left;
+  position: relative;
+}
+.memo-content {
+    max-height: 80vh;
+    overflow-y: auto;
+  }
+.memo-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+}
+
+.edit-btn, .delete-btn {
+  background: transparent;
+  border: none;
+  color: #d63384;
+  cursor: pointer;
+  font-size: 0.85em;
+  padding: 6px;
+  flex-shrink: 0;
+}
+
+.memo-text {
+  flex-grow: 1;
+  text-align:center;
+  font-size: 0.9em;
+  padding: 4px 8px;
+  word-break: break-word;
+}
+
+.edit-box {
+  width: 100%;
+  margin-top: 6px;
+  font-size: 0.9em;
+  padding: 6px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+.memo-text {
+    margin-bottom: 6px;
+  }
+
+.back-button {
+  position: absolute;
+  bottom: 16px;
+  right: 16px;
+  background-color: #efaecf;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.85em;
+}
+.back-button.home {
+    position: fixed;
+    bottom: 16px;
+    right: 16px;
+    background: transparent;
+    border: none;
+    color: #666;
+    font-size: 0.85em;
+    cursor: pointer;
+  }
+.back-button.submit {
+    display: block;
+    margin: 20px auto 0 auto;
+    background-color: #f4c3db;
+    color: white;
+    border: none;
+    padding: 8px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.9em;
+  }
